@@ -20,7 +20,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://diary-frontend-sandy.vercel.app/",
+    origin: "https://diary-frontend-sandy.vercel.app",
     credentials: true,
   }),
 );
