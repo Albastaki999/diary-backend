@@ -13,14 +13,14 @@ const port = process.env.PORT;
 
 console.log("Connecting with database...");
 
-await mongoose.connect("https://diary-frontend-sandy.vercel.app/");
+await mongoose.connect(process.env.MONGODB_URI);
 console.log("Connected successfully");
 
 const app = express();
 
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: "https://diary-frontend-sandy.vercel.app/",
     credentials: true,
   }),
 );
