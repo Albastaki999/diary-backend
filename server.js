@@ -13,7 +13,7 @@ const port = process.env.PORT;
 
 console.log("Connecting with database...");
 
-await mongoose.connect(process.env.MONGODB_URI);
+await mongoose.connect("https://diary-frontend-sandy.vercel.app/");
 console.log("Connected successfully");
 
 const app = express();
