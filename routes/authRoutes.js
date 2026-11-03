@@ -78,7 +78,7 @@ router.post("/login", async (req, res) => {
 
     const user = await User.findOne({ username });
 
-    if (!user || !(await bcrypt.compare(password, user.password))) {
+    if (!user || (await bcrypt.compare(password, user.password))) {
       return res
         .status(401)
         .json({ error: "Either username/password is invalid" });
