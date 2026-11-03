@@ -16,7 +16,9 @@ function setAuthCookie(res, token) {
   res.cookie("accessToken", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    // The frontend and API are on separate Vercel hosts in production.
+    // Cross-site XHR cookies require SameSite=None and Secure.
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     maxAge: 15 * 60 * 1000,
     path: "/",
   });
@@ -76,7 +78,7 @@ router.post("/login", async (req, res) => {
 
     const user = await User.findOne({ username });
 
-    if (!user || (await bcrypt.compare(password, user.password))) {
+    if (!user || !(await bcrypt.compare(password, user.password))) {
       return res
         .status(401)
         .json({ error: "Either username/password is invalid" });
@@ -102,7 +104,7 @@ router.post("/logout", (req, res) => {
   res.clearCookie("accessToken", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     path: "/",
   });
 
